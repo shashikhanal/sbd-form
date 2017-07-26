@@ -1,16 +1,16 @@
 <?php
-$pwd = getcwd();
-require_once($pwd.'/PHPMailer-5.2-stable/PHPMailerAutoload.php');
+// $pwd = getcwd();
+// require_once($pwd.'/PHPMailer-5.2-stable/PHPMailerAutoload.php');
 // require_once($pwd.'/vendor/phpmailer');
 
-  if(isset($_POST['submit'])){
+  if(isset($_POST['btnSubmit'])){
     $_POST = filter_var_array($_POST);
     // echo '<pre>' . var_export($_POST, true) . '</pre>';
     // exit;
     date_default_timezone_set('Asia/Kathmandu');
 
     $timestamp = date('Y-m-d H:i:s');
-    $outletName = $_POST['outlet'];
+    $outletName = $_POST['outletName'];
     $list = [];
 
     foreach ($_POST['sku'] as $brand => $skuItem) {

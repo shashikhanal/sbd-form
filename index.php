@@ -22,7 +22,7 @@
 	<title>Form</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="css/materialize.min.css">
-	<link rel="stylesheet" type="text/css" href="fonts/roboto/Roboto-Regular.woff">
+	<!-- <link rel="stylesheet" type="text/css" href="fonts/roboto/Roboto-Regular.woff"> -->
 	<link rel="stylesheet" type="text/css" href="css/icon.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 
@@ -60,7 +60,7 @@
                 ?>
                   <li>
 									<div class="collapsible-header">
-                    <h6><?php echo $key;?></h6>
+                    <h6><?php echo $key;?><span class="error">Missing input</span></h6>
 									</div>
                   <?php foreach ($values as $value) { ?>
 									<div class="collapsible-body">
@@ -70,7 +70,7 @@
 												<ul class="skuList clrfix">
 													<li class="clrfix">
 														<div class="col s8 no-margin">
-                              <input type="checkbox" id="<?php echo $value; ?>" name="brand[<?php echo $key;?>]" class="skuCheck"/>
+                              <input type="checkbox" id="<?php echo $value; ?>" name="brand[<?php echo $key;?>]" class="skuCheck valid"/>
                               <label for="<?php echo $value; ?>"><?php echo $value; ?></label>
 														</div>
 														<div class="col s4 no-margin qtyInpParnt">
@@ -90,7 +90,7 @@
 							</ul>
 						</div>
 						<div class="btn-wrapper" id="submit">
-              <input type="submit" name="submit" value="Submit" id="submitBtn" class="waves-effect waves-light btn"/>
+              <input type="submit" name="btnSubmit" value="Submit" id="submitBtn" class="waves-effect waves-light btn"/>
 						</div>
 					</form>
 	    		</div>

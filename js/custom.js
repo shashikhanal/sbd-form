@@ -50,11 +50,15 @@
 // });
 
 $( document ).ready(function() {
-
+    var chkdArray =[];
     $('select').material_select();
     $('.skuCheck').on('click',function() {
         var checked=false;
         var qtyInp=$(this).parent().siblings('.qtyInpParnt').children('.qtyInp');
+        var element_parent=qtyInp.parents().eq(6).siblings('.collapsible-header').children('h6').children('span');
+        var element =qtyInp.parents().eq(6);
+        console.log("element id..",element.attr('id'));
+        chkdArray =[];
         if( $(this).is(':checked')) {
             checked=true;
             qtyInp.removeAttr('disabled');
@@ -69,19 +73,20 @@ $( document ).ready(function() {
         } else {
             if(hasValue(qtyInp)){
                 emptyValue(qtyInp);
-                // if(qtyInp.hasClass('error_show')) {
-                //     console.log("qtyInp",qtyInp.attr('class'));
-                //     qtyInp.css('d')
-                // }
             }
             qtyInp.attr('disabled','disabled');
             if(qtyInp.hasClass('valid'))
                 qtyInp.removeClass('valid');
             else if (qtyInp.hasClass('invalid')){
+
                 qtyInp.removeClass('invalid');
-                 console.log("qtyInp",qtyInp.siblings('span').attr('class'));
-                 qtyInp.siblings('span').removeClass('error_show');
-                 qtyInp.siblings('span').css('display','none');
+                qtyInp.siblings('span').removeClass('error_show');
+                qtyInp.siblings('span').css('display','none');
+                allChecked(element);
+                if(chkdArray.length == 0) {
+                    element_parent.css('display','none');
+                 }
+
             }
         }
 
@@ -96,24 +101,32 @@ $( document ).ready(function() {
     });
     //action after submit button click event
     $('#submitBtn').click (function(event){
-      console.log("submit btn clicked");
         var form_data=$("#outletForm").serializeArray();
         var error_free=true;
         for (var input in form_data) {
-          var element=$('input[name="'+form_data[input]['name']+'"]');
-            // var element;
-            // console.log("input name ",form_data[input]['name']);
-            // console.log("input class ",element.attr('class'));
 
-            var valid=element.hasClass("valid");
+            var element=$('input[name="'+form_data[input]['name']+'"]');
+            // var valid=element.hasClass("valid");
+            var valid =false;
+
+           if(element.hasClass("valid") || element.is(":checkbox") || element.is('[disabled=disabled]')){
+              valid =true;
+           }
+
             var error_element=$("span", element.parent());
+             var error_element_parent=element.parents().eq(6).siblings('.collapsible-header').children('h6').children('span');
+            // var error_element_parent=element.parentsUntil($('div'),".collapsible-header");
 
+            //debugger;
             if (!valid) {
-                 error_element.css('display','inline');
+                error_element.css('display','inline');
+                error_element_parent.css('display','inline');
+                error_element_parent.removeClass("error").addClass("error_show");
                 error_element.removeClass("error").addClass("error_show");
                 error_free=false;
             } else{
-                 error_element.css('display','none');
+                error_element.css('display','none');
+                error_element_parent.css('display','none');
                 error_element.removeClass("error_show").addClass("error");
             }
         }
@@ -121,12 +134,21 @@ $( document ).ready(function() {
             event.preventDefault();
         }
         else{
-
             // alert('No errors: Form will be submitted');
         }
 
     });
 
+    function allChecked(element) {
+        var count =0;
+        console.log("inside all checked..",element);
+         element.find($('input[type=checkbox]')).each(function(){
+            if ($(this).is(":checked")) {
+                console.log("id of $this",$(this).attr('id'));
+                chkdArray.push($(this).attr('name'));
+            }
+        });
+    }
     function hasValue(elem) {
         return $(elem).filter(function() { return $(this).val(); }).length > 0;
     }
